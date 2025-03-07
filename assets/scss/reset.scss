@@ -1,0 +1,98 @@
+/* 基础元素样式重置 */
+html, body, div, span, header, footer, nav, section, article, aside,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, em, img, strong,
+dl, dt, dd, ol, ul, li, form, label, table, caption, tbody, tfoot, thead, tr, th, td {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  vertical-align: baseline;
+  box-sizing: border-box;
+}
+
+/* 统一盒模型 */
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+/* 文档结构重置 */
+html {
+  line-height: 1.15;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 列表样式清除 */
+ol, ul {
+  list-style: none;
+}
+
+/* 链接样式重置 */
+a {
+  color: inherit;
+  text-decoration: none;
+  background-color: transparent;
+}
+
+/* 表单元素标准化 */
+button, input, optgroup, select, textarea {
+  font-family: inherit;
+  font-size: 100%;
+  line-height: 1.15;
+  margin: 0;
+  border: none;
+  background: none;
+}
+
+button, input {
+  overflow: visible;
+}
+
+button, [type="button"], [type="reset"], [type="submit"] {
+  -webkit-appearance: button;
+}
+
+/* 媒体元素处理 */
+img {
+  border-style: none;
+  max-width: 100%;
+  height: auto;
+}
+
+/* 表格样式重置 */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* 标题字号重置 */
+h1, h2, h3, h4, h5, h6 {
+  font-size: 1em;
+  font-weight: normal;
+}
+
+/* 段落格式重置 */
+p {
+  line-height: inherit;
+}
+
+/* 移动端优化处理 */
+textarea {
+  resize: vertical;
+}
+
+fieldset {
+  min-width: 0;
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+/* 禁用默认聚焦样式 */
+:focus {
+  outline: 0;
+}

@@ -1,0 +1,39 @@
+{
+  "name": "mp-extension",
+  "description": "manifest.json description",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "wxt",
+    "dev:firefox": "wxt -b firefox",
+    "build": "wxt build",
+    "build:firefox": "wxt build -b firefox",
+    "zip": "wxt zip",
+    "zip:firefox": "wxt zip -b firefox",
+    "compile": "vue-tsc --noEmit",
+    "postinstall": "wxt prepare"
+  },
+  "dependencies": {
+    "axios": "^1.8.1",
+    "draggabilly": "^3.0.0",
+    "element-plus": "^2.9.4",
+    "pinia": "^3.0.1",
+    "pinia-plugin-persistedstate": "^4.2.0",
+    "vue": "^3.5.12"
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-optional-chaining-assign": "^7.25.9",
+    "@types/axios": "^0.14.4",
+    "@types/chrome": "^0.0.280",
+    "@types/draggabilly": "^2.1.6",
+    "@types/qs": "^6.9.18",
+    "@wxt-dev/module-vue": "^1.0.1",
+    "sass-embedded": "^1.85.1",
+    "typescript": "5.6.3",
+    "unplugin-auto-import": "^19.0.0",
+    "unplugin-vue-components": "^28.0.0",
+    "vue-tsc": "^2.1.10",
+    "wxt": "^0.19.13"
+  }
+}
