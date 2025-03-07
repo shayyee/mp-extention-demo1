@@ -41,7 +41,6 @@
   </div>
 </template>
 <script lang="ts" setup>
-import Draggabilly from 'draggabilly';
 import { useUserInfoStore } from "./store";
 import { sendMessageToBackground } from "@/utils";
 import type { UserInfo } from "@/utils/types";
@@ -61,9 +60,6 @@ onMounted(() => {
     user.value = res;
     setUserInfo(res);
   })
-  new Draggabilly('#match-point-extense', {
-    handle: '.match-point-title'
-  });
 })
 
 const close = () => {

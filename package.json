@@ -16,7 +16,6 @@
   },
   "dependencies": {
     "axios": "^1.8.1",
-    "draggabilly": "^3.0.0",
     "element-plus": "^2.9.4",
     "pinia": "^3.0.1",
     "pinia-plugin-persistedstate": "^4.2.0",
@@ -25,9 +24,7 @@
   "devDependencies": {
     "@babel/plugin-proposal-optional-chaining-assign": "^7.25.9",
     "@types/axios": "^0.14.4",
-    "@types/chrome": "^0.0.280",
-    "@types/draggabilly": "^2.1.6",
-    "@types/qs": "^6.9.18",
+    "@types/chrome": "^0.0.308",
     "@wxt-dev/module-vue": "^1.0.1",
     "sass-embedded": "^1.85.1",
     "typescript": "5.6.3",
