@@ -58,7 +58,7 @@ export function getUserInfo() {
             if (!userString) {
                 return {};
             }
-            const userInfo = JSON.parse(userString);
+            const userInfo = JSON.parse(JSON.parse(userString));
             return userInfo || {};
         } else {
             console.error("localStorage is not available");
@@ -68,6 +68,33 @@ export function getUserInfo() {
         console.error("Error parsing user info from localStorage", error);
         return {};
     }
+}
+// 获取url参数
+export function getUrlQueryParam(name: string) {
+    const qs_obj: any = {};
+    const qs = document.location.search.replace('?', '');
+    const qs_arr = qs.split('&');
+    qs_arr.forEach(qs_item => {
+        const item_arr = qs_item.split('=');
+        qs_obj[item_arr[0]] = item_arr[1];
+    });
+    return qs_obj[name] || null;
+}
+//将base64转换为文件对象
+export function dataURLtoFile(dataurl: string, filename: string) {
+    var arr = dataurl.split(",");
+    var mimeMatch = arr[0]?.match(/:(.*?);/);
+    var mime = mimeMatch ? mimeMatch[1] : '';
+    var bstr = atob(arr[1]);
+    var n = bstr.length;
+    var u8arr = new Uint8Array(n);
+    while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+    //转换成file对象
+    return new File([u8arr], filename, { type: mime });
+    //转换成成blob对象
+    //return new Blob([u8arr],{type:mime});
 }
 /**
  * 将页面里的 特定图片 转为 base64

@@ -117,7 +117,7 @@ const props = defineProps({
     default: undefined,
   },
 });
-
+const {type, placeholder, value, list, useList, userId } = toRefs(props);
 const emit = defineEmits(['checkVal', 'requestList']);
 
 const selectSearchRef = ref<any>(null);
@@ -129,7 +129,7 @@ const dataList = ref<any[]>([]);
 const count = ref(0);
 const searching = ref(true);
 const loading = ref(false);
-const itemDetail = ref(deepClone(props.value));
+const itemDetail = value;
 const width = ref('');
 const error = ref<any>(null);
 
@@ -140,13 +140,13 @@ watch(searchVal, (val) => {
   getDataList(val);
 });
 
-watch(() => props.value, (newVal) => {
+watch(value, (newVal) => {
   itemDetail.value = deepClone(newVal);
 });
 
-watch(() => props.list, () => {
-  if (props.useList) {
-    dataList.value = props.list || [];
+watch(list, () => {
+  if (useList) {
+    dataList.value = list || [];
   }
 });
 
@@ -169,11 +169,11 @@ const showPopover = () => {
 };
 
 const getDataList = (val: string) => {
-  if (props.useList) {
+  if (useList) {
     searching.value = false;
     loading.value = false;
     error.value = null;
-    dataList.value = props.list || [];
+    dataList.value = list || [];
     return;
   }
   const obj: any = {
@@ -181,14 +181,14 @@ const getDataList = (val: string) => {
     page_size: 25,
     keyword: val,
   };
-  if (props.type === 'project') {
-    obj.joborderuser_id = Number(props.userId);
+  if (type === 'project') {
+    obj.joborderuser_id = Number(userId);
     obj.job_status = 'Live';
   }
   searching.value = true;
   loading.value = true;
   error.value = null;
-  emit('requestList', props.type, obj);
+  emit('requestList', type, obj);
 };
 
 const onDataListResponse = (res: any) => {

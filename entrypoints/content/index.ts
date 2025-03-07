@@ -5,7 +5,6 @@ import { createPinia } from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
 import App from './App.vue';
 import {getUserInfo, sendMessageToBackground} from "@/utils";
-import type {UserInfo} from "@/utils/types";
 
 // https://www.linkedin.com/in/daniel-wu-b1a64929a/    https://www.linkedin.com/in/benjamin-chan-b63921273/
 const matchUrls = [
@@ -43,13 +42,12 @@ export default defineContentScript({
   cssInjectionMode: 'ui',
   async main(ctx) {
     console.log('Hello from content script!')
-    sendMessageToBackground('getUser', {}, (res: any) => {
-      if(!res || !res.id) {
-        // 获取用户信息送给background，background进行存储
-        const userInfo = getUserInfo();
+    if(window.location.href.includes(import.meta.env.WXT_BASE_URL)) {
+      const userInfo = getUserInfo();
+      if(userInfo && userInfo.id) {
         sendMessageToBackground('setUser', userInfo);
       }
-    })
+    }
     // 与路由表匹配的页面才会显示插件
     let router = window.location.href;
     let isMatched = false;

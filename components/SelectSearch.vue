@@ -1,19 +1,22 @@
 <template>
   <el-select
-      v-model="searchVal"
+      ref="selectSearchRef"
+      v-model="value"
+      value-key="id"
       filterable
+      clearable
       remote
       :placeholder="placeholder"
       :remote-method="remoteMethod"
       :loading="loading"
-      @popup-scroll="handleScroll"
+      popper-class="select-search-popper"
   >
     <template v-if="type === 'talent'">
       <el-option
           v-for="item in options"
           :key="item.id"
           :label="`${item.name} - ${item.company_name}`"
-          :value="item.id"
+          :value="item"
       >
         <div class="item-tag">
           <span class="user-text flex-extensive">{{item.name}} - {{item.company_name}}</span>
@@ -26,7 +29,7 @@
           v-for="item in options"
           :key="item.id"
           :label="`#${item.id} ${item.name} - ${item.client_name}`"
-          :value="item.id"
+          :value="item"
       >
         <div class="item-tag">
           <div class="left">
@@ -57,14 +60,19 @@ const props = defineProps({
     default: undefined
   }
 })
-const { type, userId } = toRefs(props)
+const { type, userId, placeholder } = toRefs(props)
+const selectSearchRef = ref<any>(null)
 const options = ref<any[]>([])
 const loading = ref(false)
+const value = ref(0)
 const searchVal = ref('');
 const pageIndex = ref(1)
 const total = ref(0)
-
+watch([value, searchVal], (data) => {
+  console.log(data)
+})
 const getData = (keyword: string) => {
+  console.log(selectSearchRef.value)
   loading.value = true;
   let obj: any = {
     page: pageIndex.value,
@@ -87,21 +95,31 @@ const getData = (keyword: string) => {
   });
 }
 const remoteMethod = (query: string) => {
+  searchVal.value = query;
   options.value = [];
   pageIndex.value = 1;
-  getData(searchVal.value);
+  getData(query);
 }
-const handleScroll = (e: any) => {
+const handleScroll = () => {
+  console.log(selectSearchRef.value.popperRef.querySelector(".el-select-dropdown__wrap"));
   if (options.value.length < total.value) {
     //加载数据判断
-    if (e.target.scrollHeight - e.target.offsetHeight - e.target.scrollTop < 100) {
-      pageIndex.value++;
-      getData(searchVal.value);
-    }
+    // if (e.target.scrollHeight - e.target.offsetHeight - e.target.scrollTop < 100) {
+    //   pageIndex.value++;
+    //   getData(searchVal.value);
+    // }
   }
 }
 </script>
 
-<style scoped>
-
+<style lang="scss">
+.select-search-popper {
+  .item-tag {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 3px 7px 4px;
+    cursor: pointer;
+    align-items: center;
+  }
+}
 </style>

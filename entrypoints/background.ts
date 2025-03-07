@@ -41,26 +41,39 @@ export default defineBackground(() => {
     const {type, payload} = request;
     const handleRequest = async () => {
       try {
-        if (type === 'setUser') {
-          await storage.setItem('local:__user__', payload);
-          sendResponse({success: true});
-        } else if (type === 'getUser') {
-          const user: any = await storage.getItem('local:__user__');
-          if(Object.prototype.toString.call(user) === '[object Object]') {
-            userInfo = user;
-          } else {
-            userInfo = JSON.parse(user);
-          }
-          sendResponse(userInfo);
-        } else if(type === 'getSelectOptions') {
-          let url = payload.type === 'talent' ? '/v2/candidates' : '/v2/filter/project';
-          const data: any = await axiosInstance.get(url, { params: payload.params });
-          sendResponse(data);
-        } else {
-          sendResponse({error: 'INVALID_TYPE'}); // 强制响应
+        switch (type) {
+          case 'setUser':
+            await storage.setItem('local:__user__', JSON.stringify(payload));
+            sendResponse({success: true});
+            break;
+          case 'getUser':
+            const user: any = await storage.getItem('local:__user__');
+            userInfo = Object.prototype.toString.call(user) === '[object Object]' ? user : JSON.parse(user);
+            sendResponse(userInfo);
+            break;
+          case 'getSelectOptions':
+            let url = payload.type === 'talent' ? '/v2/candidates' : '/v2/filter/project';
+            const data: any = await axiosInstance.get(url, { params: payload.params });
+            sendResponse(data);
+            break;
+          case 'resumeParse':
+            const resumeParseData: any = await axiosInstance.post('/v2/resume/parsing', payload);
+            sendResponse(resumeParseData);
+            break;
+          case 'resumeUpload':
+            const { att_id, id } = payload
+            const resumeUploadData: any = await axiosInstance.put(`v2/attachment/${att_id}`, {
+              type: "candidate",
+              tag: "Original CV",
+              external_id: id,
+            })
+            sendResponse(resumeUploadData);
+            break;
+          default:
+            sendResponse({error: 'INVALID_TYPE'});
         }
       } catch (error: any) {
-        sendResponse({error: error.message}); // 错误处理
+        sendResponse({error: error.message});
       }
     };
     handleRequest();
@@ -74,10 +87,7 @@ export default defineBackground(() => {
   //   });
   // });
 });
-async function getUserInfo() {
-  const userStr = await storage.getItem('local:__user__') as string;
-  return JSON.parse(userStr);
-}
+
 // function sendMessageToForeground(type: string, data: any, callback?: Function) {
 //   browser.tabs.sendMessage(tabId, {
 //     type,
